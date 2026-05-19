@@ -42,19 +42,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>Catat mood dan pola tidurmu setiap hari, temukan pola tersembunyi di balik tidur dan perasaanmu.</p>
         <?php if ($error): ?><p class="message error"><?= e($error) ?></p><?php endif; ?>
         <label>
-            <input type="email" name="email" value="admin@healthmood.test" placeholder="✉  Email" required>
+            <input type="email" name="email" value="admin@healthmood.test" placeholder="Email" required>
         </label>
-        <label>
-            <input type="password" name="password" placeholder="🔒  Password" required>
+        <label class="password-field">
+            <input id="loginPassword" type="password" name="password" placeholder="Password" required>
+            <button class="eye-toggle" type="button" data-toggle-password="#loginPassword" aria-label="Lihat password"></button>
         </label>
         <p><a href="#">Forgot Password?</a></p>
         <button class="btn" type="submit">LOGIN</button>
         <p>Don't have account? <a href="register.php">Create here</a></p>
-        <div class="actions" style="justify-content:center">
-            <span class="btn light">G</span>
-            <span class="btn light">f</span>
-            <span class="btn light"></span>
+        <div class="social-row">
+            <span>G</span>
+            <span>f</span>
+            <span>A</span>
         </div>
+        <script src="assets/js/app.js"></script>
     </form>
 </body>
 </html>

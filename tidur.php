@@ -12,18 +12,21 @@ if (!$pdo) {
 }
 
 $userId = $_SESSION['user_id'];
-$edit = null;
+$record = null;
+$isView = false;
 
 if (isset($_GET['delete'])) {
     $stmt = $pdo->prepare('DELETE FROM sleeps WHERE id = ? AND user_id = ?');
     $stmt->execute([(int) $_GET['delete'], $userId]);
-    redirect_to('tidur.php?msg=deleted');
+    redirect_to('laporan_tidur.php?success=sleep_deleted');
 }
 
-if (isset($_GET['edit'])) {
+$modalId = (int) ($_GET['edit'] ?? $_GET['view'] ?? 0);
+if ($modalId > 0) {
     $stmt = $pdo->prepare('SELECT * FROM sleeps WHERE id = ? AND user_id = ?');
-    $stmt->execute([(int) $_GET['edit'], $userId]);
-    $edit = $stmt->fetch();
+    $stmt->execute([$modalId, $userId]);
+    $record = $stmt->fetch();
+    $isView = isset($_GET['view']);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -40,25 +43,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($id > 0) {
         $stmt = $pdo->prepare('UPDATE sleeps SET sleep_date = ?, sleep_start = ?, sleep_end = ?, hours = ?, quality = ?, note = ? WHERE id = ? AND user_id = ?');
         $stmt->execute([$date, $start, $end, $hours, $quality, $note, $id, $userId]);
-        redirect_to('tidur.php?msg=updated');
+        redirect_to('laporan_tidur.php?success=sleep_updated');
     }
 
     $stmt = $pdo->prepare('INSERT INTO sleeps (user_id, sleep_date, sleep_start, sleep_end, hours, quality, note) VALUES (?, ?, ?, ?, ?, ?, ?)');
     $stmt->execute([$userId, $date, $start, $end, $hours, $quality, $note]);
-    redirect_to('tidur.php?msg=created');
+    redirect_to('laporan_tidur.php?success=sleep_created');
 }
 
-$rows = $pdo->prepare('SELECT * FROM sleeps WHERE user_id = ? ORDER BY sleep_date DESC, id DESC');
-$rows->execute([$userId]);
-$sleeps = $rows->fetchAll();
-
-$messages = [
-    'created' => 'Data tidur berhasil ditambahkan.',
-    'updated' => 'Data tidur berhasil diperbarui.',
-    'deleted' => 'Data tidur berhasil dihapus.',
-];
-$message = $messages[$_GET['msg'] ?? ''] ?? '';
-
+$showModal = $record || isset($_GET['add']);
 $title = 'Tidur';
 $active = 'tidur';
 require 'includes/header.php';
@@ -84,41 +77,39 @@ require 'includes/header.php';
     </div>
 </section>
 
-<section class="section">
-    <?php if ($message): ?><p class="message"><?= e($message) ?></p><?php endif; ?>
-</section>
-
-<div class="modal <?= $edit ? 'show' : '' ?>" id="sleepModal">
+<div class="modal <?= $showModal ? 'show' : '' ?>" id="sleepModal">
     <form class="modal-card" method="post">
         <button class="modal-close" type="button" data-close-modal>&times;</button>
-        <h2>Isi data tidur malammu</h2>
+        <h2><?= $isView ? 'Detail Data Tidur' : ($record ? 'Edit Data Tidur' : 'Isi data tidur malammu') ?></h2>
         <p>Data tidur membantumu memahami hubungan antara istirahat dan suasana hati</p>
-        <input type="hidden" name="id" value="<?= e($edit['id'] ?? '') ?>">
-        <div class="form-grid">
+        <input type="hidden" name="id" value="<?= e($isView ? '' : ($record['id'] ?? '')) ?>">
+        <div class="form-grid modal-fields">
             <label>Tanggal tidur
-                <input type="date" name="sleep_date" value="<?= e($edit['sleep_date'] ?? date('Y-m-d')) ?>" required>
+                <input type="date" name="sleep_date" value="<?= e($record['sleep_date'] ?? date('Y-m-d')) ?>" required <?= $isView ? 'disabled' : '' ?>>
             </label>
             <label>Jam mulai tidur
-                <input type="time" name="sleep_start" value="<?= e(substr($edit['sleep_start'] ?? '21:25', 0, 5)) ?>" required>
+                <input type="time" name="sleep_start" value="<?= e(substr($record['sleep_start'] ?? '21:25', 0, 5)) ?>" required <?= $isView ? 'disabled' : '' ?>>
             </label>
             <label>Jam mulai bangun
-                <input type="time" name="sleep_end" value="<?= e(substr($edit['sleep_end'] ?? '06:30', 0, 5)) ?>" required>
+                <input type="time" name="sleep_end" value="<?= e(substr($record['sleep_end'] ?? '06:30', 0, 5)) ?>" required <?= $isView ? 'disabled' : '' ?>>
             </label>
             <label>Kualitas tidur
-                <select name="quality">
+                <select name="quality" <?= $isView ? 'disabled' : '' ?>>
                     <?php for ($i = 1; $i <= 5; $i++): ?>
-                        <option value="<?= $i ?>" <?= (int)($edit['quality'] ?? 3) === $i ? 'selected' : '' ?>><?= $i ?></option>
+                        <option value="<?= $i ?>" <?= (int)($record['quality'] ?? 3) === $i ? 'selected' : '' ?>><?= $i ?></option>
                     <?php endfor; ?>
                 </select>
             </label>
             <label>Mimpi?
-                <input type="text" name="dream" placeholder="Tidak ingat">
+                <input type="text" name="dream" placeholder="Tidak ingat" <?= $isView ? 'disabled' : '' ?>>
             </label>
             <label>Kondisi sebelum tidur
-                <input type="text" name="condition" placeholder="Normal">
+                <input type="text" name="condition" placeholder="Normal" <?= $isView ? 'disabled' : '' ?>>
             </label>
         </div>
-        <button class="btn" type="submit">Simpan Data Tidur</button>
+        <?php if (!$isView): ?>
+            <button class="btn modal-submit" type="submit"><?= $record ? 'Edit Data Tidur' : 'Simpan Data Tidur' ?></button>
+        <?php endif; ?>
     </form>
 </div>
 <?php require 'includes/footer.php'; ?>
