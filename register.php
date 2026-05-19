@@ -41,12 +41,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <img src="public/WhatsApp-Image-2026-04-29-at-21-03-52-removebg-preview-1@2x.png" alt="HealthMood">
         <h1>Register Account</h1>
         <?php if ($error): ?><p class="message error"><?= e($error) ?></p><?php endif; ?>
-        <label><input type="email" name="email" placeholder="✉  Email" required></label>
-        <label><input type="text" name="name" placeholder="👤  Username" required></label>
-        <label><input type="password" name="password" placeholder="🔒  Password" minlength="6" required></label>
-        <label><input type="password" name="confirm_password" placeholder="🔒  Confirm Password" minlength="6" required></label>
+        <label><input type="email" name="email" placeholder="Email" required></label>
+        <label><input type="text" name="name" placeholder="Username" required></label>
+        <label class="password-field">
+            <input id="registerPassword" type="password" name="password" placeholder="Password" minlength="6" required>
+            <button class="eye-toggle" type="button" data-toggle-password="#registerPassword" aria-label="Lihat password"></button>
+        </label>
+        <label class="password-field">
+            <input id="confirmPassword" type="password" name="confirm_password" placeholder="Confirm Password" minlength="6" required>
+            <button class="eye-toggle" type="button" data-toggle-password="#confirmPassword" aria-label="Lihat password"></button>
+        </label>
         <button class="btn" type="submit">CREATE ACCOUNT</button>
         <p>Already have an account? <a href="login.php">Login here</a></p>
+        <script src="assets/js/app.js"></script>
     </form>
 </body>
 </html>

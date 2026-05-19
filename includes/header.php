@@ -24,11 +24,11 @@ $title = $title ?? 'HealthMood';
     <div class="header-actions">
         <form class="search-box" role="search">
             <input type="search" placeholder="SEARCH" aria-label="Search">
-            <span aria-hidden="true">⌕</span>
+            <span class="search-icon" aria-hidden="true"></span>
         </form>
-        <button class="bell" type="button" title="Notifikasi" aria-label="Notifikasi">●</button>
+        <button class="bell" type="button" title="Notifikasi" aria-label="Notifikasi"><span></span></button>
         <?php if (is_logged_in()): ?>
-            <button class="logout-trigger" type="button" title="Logout" aria-label="Logout">→</button>
+            <button class="logout-trigger" type="button" title="Logout" aria-label="Logout"><span></span></button>
         <?php else: ?>
             <a class="login-link" href="login.php">LOGIN</a>
         <?php endif; ?>
@@ -44,5 +44,13 @@ $title = $title ?? 'HealthMood';
             <button class="btn light" type="button" data-close-logout>Batal</button>
             <a class="btn danger" href="logout.php">Logout</a>
         </div>
+    </div>
+</div>
+
+<div class="toast-modal" id="toastModal" aria-hidden="true">
+    <div class="toast-card">
+        <h2 id="toastTitle">Berhasil</h2>
+        <p id="toastMessage">Data berhasil disimpan.</p>
+        <button class="btn" type="button" data-close-toast>OK</button>
     </div>
 </div>

@@ -1,0 +1,9 @@
+Perbaikan yang dilakukan:
+- Semua button dan menu sekarang bisa diklik.
+- Navigasi antar halaman diperbaiki.
+- Cursor pointer ditambahkan.
+- Script lama yang bentrok diperbaiki.
+
+Jalankan project:
+npm install
+npm start

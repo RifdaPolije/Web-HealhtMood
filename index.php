@@ -8,7 +8,7 @@ require 'includes/header.php';
     <div>
         <h1>Hei, Bagaimana <em>Perasaanmu?</em></h1>
         <p>Catat mood dan pola tidurmu setiap hari. Karena memahami dirimu sendiri adalah langkah pertama menuju hidup yang lebih tenang.</p>
-        <a class="btn" href="<?= is_logged_in() ? 'mood.php' : 'login.php' ?>">Check In</a>
+        <a class="btn" href="<?= is_logged_in() ? '#checkinCard' : 'login.php' ?>" <?= is_logged_in() ? 'data-scroll-checkin' : '' ?>>Check In</a>
     </div>
     <div class="hero-collage" aria-hidden="true">
         <img src="public/Rectangle-38@2x.png" alt="">
@@ -38,13 +38,17 @@ require 'includes/header.php';
 
 <section class="section center">
     <h2>Check in Harian</h2>
-    <div class="checkin-card">
+    <div class="checkin-card" id="checkinCard">
         <div class="toolbar">
             <div>
                 <strong>Streak Kamu</strong><br>
                 <small>7 hari berturut-turut check-in!</small>
             </div>
-            <a class="btn light" href="<?= is_logged_in() ? 'mood.php' : 'login.php' ?>">Check In</a>
+            <?php if (is_logged_in()): ?>
+                <button class="btn light" type="button" data-checkin-action>Check In</button>
+            <?php else: ?>
+                <a class="btn light" href="login.php">Check In</a>
+            <?php endif; ?>
         </div>
         <div class="streak-row">
             <?php foreach (['S', 'S', 'R', 'K', 'J', 'S', 'M'] as $day): ?>
@@ -52,10 +56,10 @@ require 'includes/header.php';
             <?php endforeach; ?>
         </div>
         <div class="toolbar">
-            <span>Level 8</span>
-            <span>680 / 1000 XP</span>
+            <span data-level-text>Level 8</span>
+            <span data-xp-text>680 / 1000 XP</span>
         </div>
-        <div class="progress"><span></span></div>
+        <div class="progress"><span data-xp-bar></span></div>
     </div>
 </section>
 

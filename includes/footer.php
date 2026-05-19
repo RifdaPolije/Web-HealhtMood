@@ -9,11 +9,6 @@
             <img src="public/HEADER-NEW-1@2x.png" alt="Partner logo">
             <img src="public/HEADER-NEW-2@2x.png" alt="Partner logo">
         </div>
-        <div class="footer-mini">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Our History</a>
-            <a href="#">What We Do</a>
-        </div>
     </div>
     <div>
         <h3>About us</h3>
@@ -37,7 +32,12 @@
         <a href="tel:+123456789">Call:<br>+12 3456789</a>
         <a href="mailto:email@gmail.com">Email:<br>email@gmail.com</a>
     </div>
-    <p class="copyright">&copy; 2026 HEALTHMOOD. All rights reserved.</p>
+    <div class="footer-bottom">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Our History</a>
+        <a href="#">What We Do</a>
+        <span>&copy; 2026 HEALTHMOOD. All rights reserved.</span>
+    </div>
 </footer>
 <script src="assets/js/app.js"></script>
 </body>

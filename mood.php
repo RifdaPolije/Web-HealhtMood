@@ -12,18 +12,21 @@ if (!$pdo) {
 }
 
 $userId = $_SESSION['user_id'];
-$edit = null;
+$record = null;
+$isView = false;
 
 if (isset($_GET['delete'])) {
     $stmt = $pdo->prepare('DELETE FROM moods WHERE id = ? AND user_id = ?');
     $stmt->execute([(int) $_GET['delete'], $userId]);
-    redirect_to('mood.php?msg=deleted');
+    redirect_to('laporan_mood.php?success=mood_deleted');
 }
 
-if (isset($_GET['edit'])) {
+$modalId = (int) ($_GET['edit'] ?? $_GET['view'] ?? 0);
+if ($modalId > 0) {
     $stmt = $pdo->prepare('SELECT * FROM moods WHERE id = ? AND user_id = ?');
-    $stmt->execute([(int) $_GET['edit'], $userId]);
-    $edit = $stmt->fetch();
+    $stmt->execute([$modalId, $userId]);
+    $record = $stmt->fetch();
+    $isView = isset($_GET['view']);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -42,24 +45,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($id > 0) {
         $stmt = $pdo->prepare('UPDATE moods SET mood_date = ?, mood_label = ?, mood_score = ?, note = ? WHERE id = ? AND user_id = ?');
         $stmt->execute([$date, $label, $score, $note, $id, $userId]);
-        redirect_to('mood.php?msg=updated');
+        redirect_to('laporan_mood.php?success=mood_updated');
     }
 
     $stmt = $pdo->prepare('INSERT INTO moods (user_id, mood_date, mood_label, mood_score, note) VALUES (?, ?, ?, ?, ?)');
     $stmt->execute([$userId, $date, $label, $score, $note]);
-    redirect_to('mood.php?msg=created');
+    redirect_to('laporan_mood.php?success=mood_created');
 }
 
-$rows = $pdo->prepare('SELECT * FROM moods WHERE user_id = ? ORDER BY mood_date DESC, id DESC');
-$rows->execute([$userId]);
-$moods = $rows->fetchAll();
-
-$messages = [
-    'created' => 'Data mood berhasil ditambahkan.',
-    'updated' => 'Data mood berhasil diperbarui.',
-    'deleted' => 'Data mood berhasil dihapus.',
-];
-$message = $messages[$_GET['msg'] ?? ''] ?? '';
+$showModal = $record || isset($_GET['add']);
+$activityValue = '';
+if ($record && !empty($record['note'])) {
+    $firstLine = strtok($record['note'], "\n");
+    $activityValue = trim(str_replace('Aktivitas:', '', $firstLine));
+}
 
 $title = 'Mood';
 $active = 'mood';
@@ -86,38 +85,35 @@ require 'includes/header.php';
     </div>
 </section>
 
-<section class="section">
-    <?php if ($message): ?><p class="message"><?= e($message) ?></p><?php endif; ?>
-    <?php if ($edit): ?><script>document.addEventListener('DOMContentLoaded', function(){document.getElementById('moodModal').classList.add('show');});</script><?php endif; ?>
-</section>
-
-<div class="modal <?= $edit ? 'show' : '' ?>" id="moodModal">
+<div class="modal <?= $showModal ? 'show' : '' ?>" id="moodModal">
     <form class="modal-card" method="post">
         <button class="modal-close" type="button" data-close-modal>&times;</button>
-        <h2>Bagaimana perasaanmu sekarang?</h2>
-        <p>Pilih emoji yang paling menggambarkan kondisimu saat ini</p>
-        <input type="hidden" name="id" value="<?= e($edit['id'] ?? '') ?>">
+        <h2><?= $isView ? 'Detail Data Mood' : ($record ? 'Edit Data Mood' : 'Bagaimana perasaanmu sekarang?') ?></h2>
+        <p>Pilih perasaan yang paling menggambarkan kondisimu saat ini</p>
+        <input type="hidden" name="id" value="<?= e($isView ? '' : ($record['id'] ?? '')) ?>">
         <div class="mood-options">
-            <?php foreach (['Senang' => '☺', 'Cemas' => '☹', 'Biasa aja' => '☻', 'Sedih' => '☹', 'Marah' => '☹'] as $label => $icon): ?>
+            <?php foreach (['Senang' => ':)', 'Cemas' => ':|', 'Biasa aja' => ':D', 'Sedih' => ':(', 'Marah' => '>:('] as $label => $icon): ?>
                 <label>
-                    <input type="radio" name="mood_label" value="<?= e($label) ?>" <?= (($edit['mood_label'] ?? 'Biasa aja') === $label) ? 'checked' : '' ?>>
+                    <input type="radio" name="mood_label" value="<?= e($label) ?>" <?= (($record['mood_label'] ?? 'Biasa aja') === $label) ? 'checked' : '' ?> <?= $isView ? 'disabled' : '' ?>>
                     <span><?= e($icon) ?></span>
                     <?= e($label) ?>
                 </label>
             <?php endforeach; ?>
         </div>
-        <div class="form-grid">
+        <div class="form-grid modal-fields">
             <label>Tanggal
-                <input type="date" name="mood_date" value="<?= e($edit['mood_date'] ?? date('Y-m-d')) ?>" required>
+                <input type="date" name="mood_date" value="<?= e($record['mood_date'] ?? date('Y-m-d')) ?>" required <?= $isView ? 'disabled' : '' ?>>
             </label>
             <label>Aktivitas hari ini
-                <input type="text" name="activity" value="" placeholder="Bekerja">
+                <input type="text" name="activity" value="<?= e($activityValue) ?>" placeholder="Bekerja" <?= $isView ? 'disabled' : '' ?>>
             </label>
             <label class="full">Catatan (opsional)
-                <textarea name="note" placeholder="Ceritakan sedikit tentang harimu hari ini..."><?= e($edit['note'] ?? '') ?></textarea>
+                <textarea name="note" placeholder="Ceritakan sedikit tentang harimu hari ini..." <?= $isView ? 'disabled' : '' ?>><?= e($record['note'] ?? '') ?></textarea>
             </label>
         </div>
-        <button class="btn" type="submit">Simpan Data Mood</button>
+        <?php if (!$isView): ?>
+            <button class="btn modal-submit" type="submit"><?= $record ? 'Edit Data Mood' : 'Simpan Data Mood' ?></button>
+        <?php endif; ?>
     </form>
 </div>
 <?php require 'includes/footer.php'; ?>
