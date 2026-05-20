@@ -358,6 +358,50 @@ button, input, select, textarea { font: inherit; }
 .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; }
 .toolbar { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 18px; }
 
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:24px;
+    margin-top:40px;
+}
+
+.mini-chart{
+    background:#c7d3dd;
+    border-radius:24px;
+    padding:24px;
+    box-shadow:0 5px 14px rgba(0,0,0,.08);
+}
+
+.mini-chart h3{
+    margin:0;
+    font-size:30px;
+    font-weight:600;
+    color:#111;
+}
+
+.mini-chart small{
+    display:block;
+    margin-top:8px;
+    margin-bottom:20px;
+    color:#333;
+    font-size:18px;
+}
+
+.mini-chart canvas{
+    width:100%;
+    height:auto;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
 .dashboard-grid,
 .chart-wrap {
     display: grid;
