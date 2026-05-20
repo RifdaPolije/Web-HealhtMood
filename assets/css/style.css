@@ -799,10 +799,6 @@ body.page-game {
 .site-footer p { text-decoration: none; }
 .copyright { grid-column: 1 / -1; margin: 0; text-align: right; color: rgba(255,255,255,.82); font-size: 11px; }
 
-body.page-game .site-footer {
-    gap: 26px;
-    padding: 22px 34px 16px;
-}
 
 body.page-game .footer-logo-line {
     gap: 10px;
@@ -847,12 +843,6 @@ body.page-game .site-footer p {
     line-height: 1.25;
 }
 
-body.page-game .site-header {
-    min-height: 54px;
-    grid-template-columns: 1fr auto auto;
-    gap: 14px;
-    padding: 4px 18px 4px 22px;
-}
 
 body.page-game .brand {
     gap: 10px;
@@ -1260,3 +1250,4 @@ body.page-game .footer-bottom a {
     border-radius: 2px;
     background: #fff;
 }
+
