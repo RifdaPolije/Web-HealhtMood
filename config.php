@@ -2,7 +2,7 @@
 session_start();
 
 $dbHost = 'localhost';
-$dbName = 'healthmod';
+$dbName = 'healthmood';
 $dbUser = 'root';
 $dbPass = '';
 

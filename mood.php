@@ -64,6 +64,73 @@ $title = 'Mood';
 $active = 'mood';
 require 'includes/header.php';
 ?>
+<style>
+
+/* CONTAINER */
+.mood-options{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:18px;
+    margin:25px 0;
+    flex-wrap:nowrap;
+}
+
+/* CARD */
+.mood-card{
+    position:relative;
+    cursor:pointer;
+}
+
+/* RADIO */
+.mood-card input{
+    position:absolute;
+    opacity:0;
+}
+
+/* BOX */
+.mood-content{
+    width:72px;
+    height:78px;
+    background:#304858;
+    border-radius:16px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+
+    transition:0.2s;
+}
+
+/* ICON */
+.emoji-icon img{
+    width:30px;
+    height:30px;
+    object-fit:contain;
+}
+
+/* TEXT */
+.mood-label{
+    color:white;
+    font-size:12px;
+    font-weight:600;
+}
+
+/* HOVER */
+.mood-card:hover .mood-content{
+    transform:translateY(-3px);
+}
+
+/* ACTIVE */
+.mood-card input:checked + .mood-content{
+    background:#4d6b80;
+    border:2px solid #fff;
+    transform:scale(1.05);
+}
+
+</style>
 <section class="feature-page reverse">
     <div class="feature-art">
         <div class="fake-bars">
@@ -73,7 +140,15 @@ require 'includes/header.php';
                 <div class="bar-line"><span><?= ['Sen','Sel','Rab','Kam','Jum','Sab','Min'][$i] ?></span><span style="--w:<?= $w ?>%"></span><span><?= round($w / 20, 1) ?></span></div>
             <?php endforeach; ?>
         </div>
-        <img src="public/Rectangle-38@2x.png" alt="Ilustrasi mood">
+        <img 
+         src="dist/image-11@2x.a8e13067.png" 
+         alt="Ilustrasi mood"
+         style="
+           width:520px;
+           max-width:none;
+           transform:translateX(110px) translateY(20px);
+         "
+        >
     </div>
     <div class="feature-copy">
         <h1 class="section-title">Kenali Dirimu Lebih Dalam<br>Satu Hari di Satu Waktu</h1>
@@ -92,14 +167,46 @@ require 'includes/header.php';
         <p>Pilih perasaan yang paling menggambarkan kondisimu saat ini</p>
         <input type="hidden" name="id" value="<?= e($isView ? '' : ($record['id'] ?? '')) ?>">
         <div class="mood-options">
-            <?php foreach (['Senang' => ':)', 'Cemas' => ':|', 'Biasa aja' => ':D', 'Sedih' => ':(', 'Marah' => '>:('] as $label => $icon): ?>
-                <label>
-                    <input type="radio" name="mood_label" value="<?= e($label) ?>" <?= (($record['mood_label'] ?? 'Biasa aja') === $label) ? 'checked' : '' ?> <?= $isView ? 'disabled' : '' ?>>
-                    <span><?= e($icon) ?></span>
-                    <?= e($label) ?>
-                </label>
-            <?php endforeach; ?>
+
+<?php
+$moods = [
+    'Sedih' => 'dist/Group.3c06507f.svg',
+    'Cemas' => 'dist/emojione-monotone-anxious-face-with-sweat.23cb27fd.svg',
+    'Biasa aja' => 'dist/mynaui-indifferent.2af36f8c.svg',
+    'Senang' => 'dist/gravity-ui-face-fun.49738376.svg',
+    'Marah' => 'dist/mingcute-angry-line.db3564e6.svg'
+];
+
+foreach ($moods as $label => $icon):
+?>
+
+<label class="mood-card">
+
+    <input
+        type="radio"
+        name="mood_label"
+        value="<?= e($label) ?>"
+        <?= (($record['mood_label'] ?? 'Biasa aja') === $label) ? 'checked' : '' ?>
+        <?= $isView ? 'disabled' : '' ?>
+    >
+
+    <div class="mood-content">
+
+        <div class="emoji-icon">
+            <img src="<?= $icon ?>" alt="<?= e($label) ?>">
         </div>
+
+        <span class="mood-label">
+            <?= e($label) ?>
+        </span>
+
+    </div>
+
+</label>
+
+<?php endforeach; ?>
+
+</div>
         <div class="form-grid modal-fields">
             <label>Tanggal
                 <input type="date" name="mood_date" value="<?= e($record['mood_date'] ?? date('Y-m-d')) ?>" required <?= $isView ? 'disabled' : '' ?>>
