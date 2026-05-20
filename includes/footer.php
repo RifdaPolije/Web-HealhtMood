@@ -7,7 +7,7 @@
     <div class="footer-brand">
 
         <div class="footer-logo-line">
-            <img src="public/WhatsApp-Image-2026-04-29-at-21-03-52-removebg-preview-1@2x.png" alt="Logo HealthMood">
+            <img src="assets/images/game/WhatsApp-Image-2026-04-29-at-21-03-52-removebg-preview-1@2x.png" alt="Logo HealthMood">
             <h2>HealthMood</h2>
         </div>
 

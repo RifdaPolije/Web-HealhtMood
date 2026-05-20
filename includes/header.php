@@ -11,10 +11,10 @@ $title = $title ?? 'HealthMood';
 
     <title><?= e($title) ?> - HealthMood</title>
 
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=navbar-logo-size-2">
 
     <!-- FONT LOGO -->
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
 </head>
 
 <body class="<?= $active ? 'page-' . e($active) : 'page-default' ?>">

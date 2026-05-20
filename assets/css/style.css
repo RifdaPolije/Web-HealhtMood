@@ -41,12 +41,12 @@ button, input, select, textarea { font: inherit; }
 }
 
 .brand span {
-    font-family: 'Permanent Marker', cursive;
-    font-size: 26px;
+    font-family: "Kaushan Script", "Brush Script MT", cursive;
+    font-size: 32px;
     color: white;
-    font-style: italic;
-    font-weight: 400;
-    letter-spacing: -1px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0;
     line-height: 1;
 }
 
@@ -773,9 +773,9 @@ body.page-game {
 .footer-logo-line h2 {
     margin: 0;
     font-size: 22px;
-    font-family: "Kaushan Script", "Brush Script MT", cursive;
+    font-family: Arial, Helvetica, sans-serif;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 700;
 }
 .partner-logos img { display: block; width: 150px; max-width: 100%; margin: 8px 0; }
 .partner-row {
@@ -857,7 +857,6 @@ body.page-game .site-header {
 body.page-game .brand {
     gap: 10px;
     font-size: 22px;
-    font-family: "Kaushan Script", "Brush Script MT", cursive;
     font-style: normal;
     font-weight: 400;
     letter-spacing: .02em;
@@ -956,12 +955,12 @@ body.page-game .search-icon-img {
 }
 
 .brand span {
-    font-family: 'Permanent Marker', cursive;
-    font-size: 26px;
+    font-family: "Kaushan Script", "Brush Script MT", cursive;
+    font-size: 32px;
     color: white;
-    font-style: italic;
-    font-weight: 400;
-    letter-spacing: -1px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0;
     line-height: 1;
 }
 
