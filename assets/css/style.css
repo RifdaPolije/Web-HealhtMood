@@ -40,7 +40,15 @@ button, input, select, textarea { font: inherit; }
     z-index: 50;
 }
 
-
+.brand span {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 26px;
+    color: white;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -1px;
+    line-height: 1;
+}
 
 .brand {
     display: flex;
@@ -159,6 +167,33 @@ button, input, select, textarea { font: inherit; }
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+
+.bell,
+.logout-trigger {
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.bell span,
+.logout-trigger span {
+    display: none;
+}
+
+.bell svg,
+.logout-trigger svg {
+    width: 26px;
+    height: 26px;
+    fill: white;
 }
 
 .logout-trigger span {
