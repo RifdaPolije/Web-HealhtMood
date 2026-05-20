@@ -65,16 +65,33 @@ require 'includes/header.php';
             <a class="btn" href="laporan_tidur.php">Laporan Data Tidur</a>
         </div>
     </div>
-    <div class="feature-art">
-        <div class="fake-bars">
-            <p>Pola Tidur Minggu Ini</p>
-            <small>Durasi tidur harian (jam)</small>
-            <?php foreach ([65, 80, 26, 40, 50, 0, 0] as $i => $w): ?>
-                <div class="bar-line"><span><?= ['Sen','Sel','Rab','Kam','Jum','Sab','Min'][$i] ?></span><span style="--w:<?= $w ?>%"></span><span><?= $w ? round($w / 10, 1) : '' ?></span></div>
-            <?php endforeach; ?>
-        </div>
-        <img src="public/Rectangle-39@2x.png" alt="Ilustrasi tidur">
+    <div class="feature-art" style="width:100%; overflow:hidden; position:relative;">   
+    <div class="fake-bars">
+        <p>Pola Tidur Minggu Ini</p>
+        <small>Durasi tidur harian (jam)</small>
+
+        <?php foreach ([65, 80, 26, 40, 50, 0, 0] as $i => $w): ?>
+            <div class="bar-line">
+                <span><?= ['Sen','Sel','Rab','Kam','Jum','Sab','Min'][$i] ?></span>
+                <span style="--w:<?= $w ?>%"></span>
+                <span><?= $w ? round($w / 10, 1) : '' ?></span>
+            </div>
+        <?php endforeach; ?>
     </div>
+
+    <img 
+        src="public/image-12@2x.b5f9501b.png" 
+        alt="Ilustrasi tidur"
+        style="
+            width:850px;
+            max-width:none;
+            height:auto;
+            object-fit:contain;
+            display:block;
+            transform:translateX(350px);
+        "
+    >
+</div>
 </section>
 
 <div class="modal <?= $showModal ? 'show' : '' ?>" id="sleepModal">
@@ -112,4 +129,39 @@ require 'includes/header.php';
         <?php endif; ?>
     </form>
 </div>
+<style>
+.modal-fields label{
+    position: relative;
+}
+
+.modal-fields input,
+.modal-fields select{
+    height: 55px;
+    padding-right: 45px;
+    box-sizing: border-box;
+}
+
+/* Rapikan icon kalender & jam */
+.modal-fields input[type="date"]::-webkit-calendar-picker-indicator,
+.modal-fields input[type="time"]::-webkit-calendar-picker-indicator{
+    position: absolute;
+    right: 13px;
+    top: 65%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+/* Rapikan icon dropdown */
+.modal-fields select{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 20px;
+}
+</style>
 <?php require 'includes/footer.php'; ?>
