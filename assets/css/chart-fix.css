@@ -1,0 +1,53 @@
+/* ============================================================
+   CHART FIX — tambahkan ini ke bawah style.css kamu
+   ============================================================ */
+
+/* Pastikan card chart punya tinggi yang cukup */
+.mini-chart {
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;          /* naik dari 210px */
+    padding: 20px 18px 16px;
+}
+
+.mini-chart h3 {
+    margin: 0 0 2px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e3a48;
+}
+
+.mini-chart small {
+    display: block;
+    margin: 0 0 14px;
+    font-size: 13px;
+    color: #5a7a88;
+}
+
+/* Canvas mengisi sisa ruang di dalam card */
+.mini-chart canvas {
+    display: block;
+    width: 100% !important;
+    flex: 1;
+    min-height: 200px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.30);
+    /* hapus background lama jika ada */
+}
+
+/* Dashboard grid — dua kolom sejajar */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 28px;
+}
+
+@media (max-width: 900px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    .mini-chart {
+        min-height: 260px;
+    }
+}

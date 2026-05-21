@@ -1103,6 +1103,21 @@ body.page-game .search-icon-img {
     gap: 18px;
     margin-top: 14px;
 }
+
+.social-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,.16);
+}
+
+.social-icon svg {
+    width: 22px;
+    height: 22px;
+}
 .social-row span {
     display: grid;
     place-items: center;
